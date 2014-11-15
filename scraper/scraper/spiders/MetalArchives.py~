@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+import scrapy
+
+
+class MetalarchivesSpider(scrapy.Spider):
+    name = "MetalArchives"
+    allowed_domains = ["metal-archives.com"]
+    start_urls = (
+        'http://www.metal-archives.com/',
+    )
+
+    def parse(self, response):
+        pass
