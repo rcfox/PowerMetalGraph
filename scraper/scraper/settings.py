@@ -15,3 +15,9 @@ NEWSPIDER_MODULE = 'scraper.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Ryan Fox (http://rcfox.ca)'
+
+HTTPCACHE_ENABLED=True
+
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware': 300
+}

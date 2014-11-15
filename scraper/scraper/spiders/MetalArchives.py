@@ -30,11 +30,7 @@ class MetalArchivesSpider(scrapy.Spider):
 
     def parse(self, response):
         data = json.loads(response.body)
-        count = 0
         for link, country, genre, status in data['aaData']:
-            count += 1
-            if count > 10:
-                break
             hxs = Selector(text=link)
             url = hxs.xpath('//a/@href').extract()[0]
             name = hxs.xpath('//a/text()').extract()[0]
