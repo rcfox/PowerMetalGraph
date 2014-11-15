@@ -20,3 +20,7 @@ class BandItem(scrapy.Item):
 class MemberItem(scrapy.Item):
     member_id = scrapy.Field()
     name = scrapy.Field()
+
+class LabelItem(scrapy.Item):
+    label_id = scrapy.Field()
+    name = scrapy.Field()

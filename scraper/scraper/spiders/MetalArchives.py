@@ -3,7 +3,7 @@ import scrapy
 import json
 from scrapy.selector import Selector
 from scrapy.http import Request
-from scraper.items import BandItem, MemberItem
+from scraper.items import *
 
 import itertools
 
@@ -52,12 +52,20 @@ class MetalArchivesSpider(scrapy.Spider):
 
     def parse_band_page(self, response):
         item = BandItem(**response.meta['band_info'])
-        
+
         members = self.parse_all_members_tab(response)
         if len(members.keys()) == 0:
             members = self.parse_current_members_tab(response)
-
         item['members'] = members
+
+        label_xpath = '//div[@id="band_stats"]//dt[contains(text(), "label")]/following-sibling::dd/a'
+        label_elem = response.xpath(label_xpath)
+        if len(label_elem) > 0:
+            label_name = label_elem.xpath('text()').extract()[0]
+            url = label_elem.xpath('@href').extract()[0]
+            label_id = get_id(url)
+            item['label'] = LabelItem(name=label_name, label_id=label_id)
+
         yield item
 
     def parse_all_members_tab(self, response):
@@ -71,7 +79,7 @@ class MetalArchivesSpider(scrapy.Spider):
         member_row_xpath = '//div[@id="band_tab_members_all"]//tr[@class="lineupRow"]//a'
         header_row_xpath = '//div[@id="band_tab_members_all"]//tr[@class="lineupHeaders"]//text()'
         rows = [row.replace('\t','').strip() for row in
-                response.xpath('%s|%s' % (member_row_xpath, header_row_xpath)).extract()] 
+                response.xpath('%s|%s' % (member_row_xpath, header_row_xpath)).extract()]
         section = None
         force_new_section = False
         members = {}
@@ -95,7 +103,7 @@ class MetalArchivesSpider(scrapy.Spider):
                     member_id = get_id(url)
                     members[section].append(MemberItem(name=name, member_id=member_id))
         return members
-    
+
     def parse_current_members_tab(self, response):
         member_row_xpath = '//div[@id="band_tab_members_current"]//tr[@class="lineupRow"]//a'
         section = 'Current'
