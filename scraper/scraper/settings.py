@@ -17,6 +17,9 @@ NEWSPIDER_MODULE = 'scraper.spiders'
 USER_AGENT = 'Ryan Fox (http://rcfox.ca)'
 
 HTTPCACHE_ENABLED=True
+HTTPCACHE_IGNORE_MISSING=True
+
+DOWNLOAD_DELAY=2
 
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware': 300
