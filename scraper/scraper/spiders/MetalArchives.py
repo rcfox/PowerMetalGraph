@@ -26,10 +26,17 @@ class MetalArchivesSpider(scrapy.Spider):
     allowed_domains = ["metal-archives.com"]
     start_urls = (
         'http://www.metal-archives.com/browse/ajax-genre/g/power/json/?sEcho=1&iDisplayStart=0',
+        'http://www.metal-archives.com/browse/ajax-genre/g/orchestral/json/?sEcho=1&iDisplayStart=0',
     )
 
     def parse(self, response):
         data = json.loads(response.body)
+        start_index = int(response.meta.get('start_index', 0))
+        num_bands = int(data['iTotalRecords'])
+        next_start = start_index + 500
+        if next_start < num_bands:
+            url = '%s=%d' % (response.url.rsplit('=', 1)[0], next_start)
+            yield Request(url, meta={'start_index': next_start})
         for link, country, genre, status in data['aaData']:
             hxs = Selector(text=link)
             url = hxs.xpath('//a/@href').extract()[0]
