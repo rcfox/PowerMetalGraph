@@ -30,6 +30,11 @@
 	    margin-bottom: 0;
 	    margin-top: 0.5em;
 	  }
+          #infobox .blue:before { color: blue; }
+          #infobox .green:before { color: green; }
+          #infobox .red:before { color: red; }
+          #infobox .node:before { content: "• "; margin-left: 0.3em; margin-right: 0.3em}
+          #infobox .edge:before { content: "— ";}
 	  .disclaimer {
 	    font-size: 75%;
 	  }
@@ -41,18 +46,18 @@
       <label>Search: <input id="nodeSearch" type="text" placeholder="Yngwie J. Malmsteen"></input></label>
       <p>Legend:</p>
       <ul>
-        <li>Blue node: Band</li>
-        <li>Green node: Musician</li>
-        <li>Yellow node: Record label</li>
-        <li>Green edge: Current band member</li>
-        <li>Red edge: Former band member</li>
+        <li class="blue node">Blue node: Musician</li>
+        <li class="green node">Green node: Active band</li>
+        <li class="red node">Red node: Inactive band</li>
+        <li class="green edge">Green edge: Current band member</li>
+        <li class="red edge">Red edge: Former band member</li>
       </ul>
 	  <p>Click and drag to pan around.</p>
 	  <p>Scroll the mouse wheel to zoom in or out.</p>
 	  <p>Click a node to focus on it and its neighbours.</p>
 	  <hr/>
 	  <p class="disclaimer">The data presented here is not guaranteed to be complete or correct.</p>
-	  <p class="disclaimer">All data was collected from <a href="https://en.wikipedia.org/wiki/List_of_power_metal_bands">Wikipedia</a> on November 12, 2014.</p>
+	  <p class="disclaimer">All data was collected from <a href="http://www.metal-archives.com/" target="_blank">The Metal Archives</a> on November 15, 2014.</p>
     </div>
     <script src="sigma.min.js"></script>
     <script src="plugins/sigma.parsers.gexf.min.js"></script>
