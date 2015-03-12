@@ -65,6 +65,13 @@
     <script src="plugins/sigma.parsers.gexf.min.js"></script>
     <script>
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 function removeDiacritics (str) {
 
   var defaultDiacriticsRemovalMap = [
@@ -190,7 +197,7 @@ function removeDiacritics (str) {
       s.graph.edges().forEach(function(e) {
         e.originalColor = e.color;
       });
-
+    var searchParam = getParameterByName('search');
 	var searchBox = document.getElementById('nodeSearch');
 	if(searchBox) {
 	    searchBox.addEventListener('change', function(event) {
@@ -230,6 +237,10 @@ function removeDiacritics (str) {
 		// update effective.
 		s.refresh();
 	    });
+		if (searchParam) {
+            searchBox.value = searchParam;
+			searchBox.dispatchEvent(new Event('change'));
+    	}
 	}
 
 
